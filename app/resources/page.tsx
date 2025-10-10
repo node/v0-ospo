@@ -6,32 +6,32 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { FileText, FileCode, Award } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { useSearchParams } from "next/navigation"
+import { Suspense } from "react"
 
-export default function ResourcesPage() {
+function ResourcesContent() {
   const { t } = useLanguage()
+  const searchParams = useSearchParams()
+  const tab = searchParams.get("tab")
 
   const policies = [
     {
-      title: "Open Source Contribution Policy",
-      description: "Guidelines for contributing to open source projects",
+      id: "contribution-policy",
       link: "#",
       updated: "2024-03-15",
     },
     {
-      title: "Open Source License Compliance",
-      description: "Requirements for using open source software",
+      id: "license-compliance",
       link: "#",
       updated: "2024-02-20",
     },
     {
-      title: "Code of Conduct",
-      description: "Expected behavior when participating in open source communities",
+      id: "code-of-conduct",
       link: "#",
       updated: "2024-01-10",
     },
     {
-      title: "IP Rights Management",
-      description: "Intellectual property considerations for open source",
+      id: "ip-rights-management",
       link: "#",
       updated: "2024-03-05",
     },
@@ -39,26 +39,22 @@ export default function ResourcesPage() {
 
   const processes = [
     {
-      title: "Contribution Workflow",
-      description: "Step-by-step process for contributing to open source projects",
+      id: "contribution-workflow",
       link: "#",
       steps: 5,
     },
     {
-      title: "License Review Process",
-      description: "How to get approval for using new open source components",
+      id: "license-review-process",
       link: "#",
       steps: 4,
     },
     {
-      title: "Project Release Process",
-      description: "Steps to release an internal project as open source",
+      id: "project-release-process",
       link: "#",
       steps: 7,
     },
     {
-      title: "Security Review Process",
-      description: "Security assessment for open source components",
+      id: "security-review-process",
       link: "#",
       steps: 6,
     },
@@ -66,29 +62,25 @@ export default function ResourcesPage() {
 
   const cases = [
     {
-      title: "Cloud Infrastructure Optimization",
-      description: "How our team leveraged open source tools to optimize cloud costs by 35%",
+      id: "cloud-infrastructure-optimization",
       department: "Cloud Infrastructure",
       impact: "High",
       link: "#",
     },
     {
-      title: "Machine Learning Pipeline",
-      description: "Building an ML pipeline with open source frameworks that reduced development time by 60%",
+      id: "machine-learning-pipeline",
       department: "Data Science",
       impact: "High",
       link: "#",
     },
     {
-      title: "Developer Productivity Tools",
-      description: "Internal tools built on open source that improved developer productivity by 25%",
+      id: "developer-productivity-tools",
       department: "Engineering",
       impact: "Medium",
       link: "#",
     },
     {
-      title: "Customer Support Dashboard",
-      description: "Open source visualization tools that improved response time by 40%",
+      id: "customer-support-dashboard",
       department: "Customer Support",
       impact: "Medium",
       link: "#",
@@ -102,7 +94,7 @@ export default function ResourcesPage() {
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">{t("resources.subtitle")}</p>
       </div>
 
-      <Tabs defaultValue="policies" className="w-full">
+      <Tabs defaultValue={tab || "policies"} className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="policies">
             <FileText className="mr-2 h-4 w-4" />
@@ -117,20 +109,21 @@ export default function ResourcesPage() {
             {t("resources.cases.title")}
           </TabsTrigger>
         </TabsList>
-
         <TabsContent value="policies" className="mt-6">
           <div className="grid gap-6 md:grid-cols-2">
             {policies.map((policy) => (
-              <Card key={policy.title}>
+              <Card key={policy.id}>
                 <CardHeader>
-                  <CardTitle>{policy.title}</CardTitle>
-                  <CardDescription>{policy.description}</CardDescription>
+                  <CardTitle>{t(`resources.policies.${policy.id}.title`)}</CardTitle>
+                  <CardDescription>{t(`resources.policies.${policy.id}.description`)}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Updated: {policy.updated}</span>
+                    <span className="text-sm text-muted-foreground">
+                      {t("resources.updated")} {policy.updated}
+                    </span>
                     <Button asChild variant="outline" size="sm">
-                      <Link href={policy.link}>View Policy</Link>
+                      <Link href={policy.link}>{t("resources.view-policy")}</Link>
                     </Button>
                   </div>
                 </CardContent>
@@ -142,16 +135,18 @@ export default function ResourcesPage() {
         <TabsContent value="processes" className="mt-6">
           <div className="grid gap-6 md:grid-cols-2">
             {processes.map((process) => (
-              <Card key={process.title}>
+              <Card key={process.id}>
                 <CardHeader>
-                  <CardTitle>{process.title}</CardTitle>
-                  <CardDescription>{process.description}</CardDescription>
+                  <CardTitle>{t(`resources.processes.${process.id}.title`)}</CardTitle>
+                  <CardDescription>{t(`resources.processes.${process.id}.description`)}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">{process.steps} steps</span>
+                    <span className="text-sm text-muted-foreground">
+                      {process.steps} {t("resources.steps")}
+                    </span>
                     <Button asChild variant="outline" size="sm">
-                      <Link href={process.link}>View Process</Link>
+                      <Link href={process.link}>{t("resources.view-process")}</Link>
                     </Button>
                   </div>
                 </CardContent>
@@ -163,23 +158,23 @@ export default function ResourcesPage() {
         <TabsContent value="cases" className="mt-6">
           <div className="grid gap-6 md:grid-cols-2">
             {cases.map((case_study) => (
-              <Card key={case_study.title}>
+              <Card key={case_study.id}>
                 <CardHeader>
-                  <CardTitle>{case_study.title}</CardTitle>
-                  <CardDescription>{case_study.description}</CardDescription>
+                  <CardTitle>{t(`resources.cases.${case_study.id}.title`)}</CardTitle>
+                  <CardDescription>{t(`resources.cases.${case_study.id}.description`)}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     <div className="flex justify-between">
                       <span className="text-sm">
-                        <strong>Department:</strong> {case_study.department}
+                        <strong>{t("resources.department")}</strong> {case_study.department}
                       </span>
                       <span className="text-sm">
-                        <strong>Impact:</strong> {case_study.impact}
+                        <strong>{t("resources.impact")}</strong> {case_study.impact}
                       </span>
                     </div>
                     <Button asChild variant="outline" size="sm" className="w-full">
-                      <Link href={case_study.link}>Read Case Study</Link>
+                      <Link href={case_study.link}>{t("resources.read-case-study")}</Link>
                     </Button>
                   </div>
                 </CardContent>
@@ -192,3 +187,10 @@ export default function ResourcesPage() {
   )
 }
 
+export default function ResourcesPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResourcesContent />
+    </Suspense>
+  )
+}

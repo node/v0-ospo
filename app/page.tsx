@@ -5,56 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ExternalLink } from "lucide-react"
 import Link from "next/link"
+import { teamMembers, internalLinks, externalLinks } from "@/lib/data"
 
 export default function Home() {
   const { t } = useLanguage()
-
-  const teamMembers = [
-    {
-      name: "Alex Chen",
-      role: t("home.team.director"),
-      email: "alex.chen@example.com",
-      avatar: "/placeholder.svg?height=80&width=80",
-    },
-    {
-      name: "Sarah Johnson",
-      role: t("home.team.manager"),
-      email: "sarah.johnson@example.com",
-      avatar: "/placeholder.svg?height=80&width=80",
-    },
-    {
-      name: "Michael Zhang",
-      role: t("home.team.engineer"),
-      email: "michael.zhang@example.com",
-      avatar: "/placeholder.svg?height=80&width=80",
-    },
-    {
-      name: "Emma Liu",
-      role: t("home.team.legal"),
-      email: "emma.liu@example.com",
-      avatar: "/placeholder.svg?height=80&width=80",
-    },
-    {
-      name: "David Wang",
-      role: t("home.team.developer"),
-      email: "david.wang@example.com",
-      avatar: "/placeholder.svg?height=80&width=80",
-    },
-  ]
-
-  const internalLinks = [
-    { name: "Developer Portal", url: "#" },
-    { name: "Legal Guidelines", url: "#" },
-    { name: "Contribution Workflow", url: "#" },
-    { name: "Training Resources", url: "#" },
-  ]
-
-  const externalLinks = [
-    { name: "GitHub Organization", url: "https://github.com" },
-    { name: "Open Source Initiative", url: "https://opensource.org" },
-    { name: "FOSS Compliance", url: "https://www.linuxfoundation.org" },
-    { name: "InnerSource Commons", url: "https://innersourcecommons.org" },
-  ]
 
   return (
     <div className="container py-8 space-y-12">
@@ -108,7 +62,7 @@ export default function Home() {
                   <AvatarFallback>{member.name.substring(0, 2)}</AvatarFallback>
                 </Avatar>
                 <h3 className="font-medium">{member.name}</h3>
-                <p className="text-sm text-muted-foreground mb-2">{member.role}</p>
+                <p className="text-sm text-muted-foreground mb-2">{t(member.roleKey)}</p>
                 <p className="text-xs">{member.email}</p>
               </CardContent>
             </Card>
@@ -126,9 +80,9 @@ export default function Home() {
             <CardContent>
               <ul className="space-y-2">
                 {internalLinks.map((link) => (
-                  <li key={link.name}>
+                  <li key={link.id}>
                     <Link href={link.url} className="flex items-center text-primary hover:underline">
-                      {link.name}
+                      {t(`home.links.internal.${link.id}`)}
                     </Link>
                   </li>
                 ))}
@@ -142,14 +96,14 @@ export default function Home() {
             <CardContent>
               <ul className="space-y-2">
                 {externalLinks.map((link) => (
-                  <li key={link.name}>
+                  <li key={link.id}>
                     <Link
                       href={link.url}
                       className="flex items-center text-primary hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {link.name}
+                      {t(`home.links.external.${link.id}`)}
                       <ExternalLink className="ml-1 h-3 w-3" />
                     </Link>
                   </li>
