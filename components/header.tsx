@@ -3,10 +3,11 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { MoonIcon, SunIcon, GlobeIcon } from "lucide-react"
+import { MoonIcon, SunIcon, GlobeIcon, Menu } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useLanguage } from "@/components/language-provider"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 export default function Header() {
   const { setTheme } = useTheme()
@@ -17,6 +18,8 @@ export default function Header() {
     { name: t("nav.home"), href: "/" },
     { name: t("nav.capabilities"), href: "/capabilities" },
     { name: t("nav.projects"), href: "/projects" },
+    { name: t("nav.governance"), href: "/governance" },
+    { name: t("nav.compliance"), href: "/compliance" },
     { name: t("nav.resources"), href: "/resources" },
   ]
 
@@ -27,7 +30,7 @@ export default function Header() {
           <Link href="/" className="flex items-center space-x-2">
             <span className="font-bold text-xl">OSPO</span>
           </Link>
-          <nav className="hidden md:flex gap-6">
+          <nav className="hidden lg:flex gap-6">
             {navigation.map((item) => (
               <Link
                 key={item.href}
@@ -42,6 +45,31 @@ export default function Header() {
           </nav>
         </div>
         <div className="flex items-center gap-2">
+          {/* Mobile menu */}
+          <Sheet>
+            <SheetTrigger asChild className="lg:hidden">
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <nav className="flex flex-col gap-4 mt-8">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`text-sm font-medium transition-colors hover:text-primary ${
+                      pathname === item.href ? "text-primary" : "text-muted-foreground"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </nav>
+            </SheetContent>
+          </Sheet>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -73,4 +101,3 @@ export default function Header() {
     </header>
   )
 }
-

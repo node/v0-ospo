@@ -10,52 +10,62 @@ export default function CapabilitiesPage() {
   const capabilities = [
     {
       id: "governance",
+      title: "Open Source Governance",
+      description: "Establishing policies, processes, and guidelines for open source usage and contribution",
       progress: 85,
       milestones: [
-        { id: "policy-framework", status: "completed", date: "2024-01" },
-        { id: "governance-committee", status: "completed", date: "2024-02" },
-        { id: "compliance-tooling", status: "in-progress", date: "2024-05" },
-        { id: "audit-process", status: "planned", date: "2024-08" },
+        { title: "Policy Framework", status: "completed", date: "2024-01" },
+        { title: "Governance Committee", status: "completed", date: "2024-02" },
+        { title: "Compliance Tooling", status: "in-progress", date: "2024-05" },
+        { title: "Audit Process", status: "planned", date: "2024-08" },
       ],
     },
     {
       id: "education",
+      title: "Developer Education",
+      description: "Training and resources for developers on open source best practices",
       progress: 60,
       milestones: [
-        { id: "basic-training", status: "completed", date: "2024-02" },
-        { id: "advanced-workshops", status: "in-progress", date: "2024-04" },
-        { id: "certification-program", status: "planned", date: "2024-07" },
-        { id: "mentorship-program", status: "planned", date: "2024-10" },
+        { title: "Basic Training", status: "completed", date: "2024-02" },
+        { title: "Advanced Workshops", status: "in-progress", date: "2024-04" },
+        { title: "Certification Program", status: "planned", date: "2024-07" },
+        { title: "Mentorship Program", status: "planned", date: "2024-10" },
       ],
     },
     {
       id: "contribution",
+      title: "Contribution Strategy",
+      description: "Strategic approach to contributing to external open source projects",
       progress: 40,
       milestones: [
-        { id: "contribution-guidelines", status: "completed", date: "2024-03" },
-        { id: "project-selection-framework", status: "in-progress", date: "2024-06" },
-        { id: "contribution-metrics", status: "planned", date: "2024-09" },
-        { id: "community-leadership", status: "planned", date: "2025-01" },
+        { title: "Contribution Guidelines", status: "completed", date: "2024-03" },
+        { title: "Project Selection Framework", status: "in-progress", date: "2024-06" },
+        { title: "Contribution Metrics", status: "planned", date: "2024-09" },
+        { title: "Community Leadership", status: "planned", date: "2025-01" },
       ],
     },
     {
       id: "innersource",
+      title: "InnerSource Program",
+      description: "Applying open source principles to internal development",
       progress: 30,
       milestones: [
-        { id: "innersource-guidelines", status: "completed", date: "2024-03" },
-        { id: "pilot-projects", status: "in-progress", date: "2024-05" },
-        { id: "tooling-infrastructure", status: "planned", date: "2024-08" },
-        { id: "organization-wide-rollout", status: "planned", date: "2024-12" },
+        { title: "InnerSource Guidelines", status: "completed", date: "2024-03" },
+        { title: "Pilot Projects", status: "in-progress", date: "2024-05" },
+        { title: "Tooling & Infrastructure", status: "planned", date: "2024-08" },
+        { title: "Organization-wide Rollout", status: "planned", date: "2024-12" },
       ],
     },
     {
       id: "security",
+      title: "Security & Compliance",
+      description: "Ensuring security and legal compliance in open source usage",
       progress: 70,
       milestones: [
-        { id: "security-scanning", status: "completed", date: "2024-01" },
-        { id: "license-compliance", status: "completed", date: "2024-02" },
-        { id: "vulnerability-management", status: "in-progress", date: "2024-04" },
-        { id: "automated-compliance", status: "planned", date: "2024-07" },
+        { title: "Security Scanning", status: "completed", date: "2024-01" },
+        { title: "License Compliance", status: "completed", date: "2024-02" },
+        { title: "Vulnerability Management", status: "in-progress", date: "2024-04" },
+        { title: "Automated Compliance", status: "planned", date: "2024-07" },
       ],
     },
   ]
@@ -73,8 +83,8 @@ export default function CapabilitiesPage() {
             <CardHeader>
               <div className="flex justify-between items-center">
                 <div>
-                  <CardTitle>{t(`capabilities.${capability.id}.title`)}</CardTitle>
-                  <CardDescription>{t(`capabilities.${capability.id}.description`)}</CardDescription>
+                  <CardTitle>{capability.title}</CardTitle>
+                  <CardDescription>{capability.description}</CardDescription>
                 </div>
                 <div className="text-right">
                   <div className="text-sm font-medium">{t("capabilities.progress")}</div>
@@ -86,7 +96,7 @@ export default function CapabilitiesPage() {
               <Progress value={capability.progress} className="h-2" />
 
               <div className="pt-4">
-                <h4 className="text-sm font-medium mb-3">{t("capabilities.milestones")}</h4>
+                <h4 className="text-sm font-medium mb-3">Milestones</h4>
                 <div className="relative">
                   <div className="absolute left-0 top-0 h-full w-0.5 bg-muted"></div>
                   <div className="space-y-6 relative">
@@ -102,14 +112,10 @@ export default function CapabilitiesPage() {
                           }`}
                         ></div>
                         <div className="flex justify-between">
-                          <h5 className="font-medium">
-                            {t(`capabilities.${capability.id}.milestones.${milestone.id}`)}
-                          </h5>
+                          <h5 className="font-medium">{milestone.title}</h5>
                           <span className="text-sm text-muted-foreground">{milestone.date}</span>
                         </div>
-                        <p className="text-sm text-muted-foreground capitalize">
-                          {t(`capabilities.status.${milestone.status}`)}
-                        </p>
+                        <p className="text-sm text-muted-foreground capitalize">{milestone.status.replace("-", " ")}</p>
                       </div>
                     ))}
                   </div>
@@ -122,4 +128,3 @@ export default function CapabilitiesPage() {
     </div>
   )
 }
-
