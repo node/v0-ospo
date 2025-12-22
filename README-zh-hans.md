@@ -141,7 +141,7 @@ const [language, setLanguage] = useState<Language>("zh") // 改为 "en" 使用�
 
 您的项目已部署至：
 
-**[https://vercel.com/pecommunity/v0-ospo-internal-website](https://vercel.com/pecommunity/v0-ospo-internal-website)**
+**[https://v0ospo.pages.dev](https://v0ospo.pages.dev)**
 
 ### 部署到 Vercel
 
@@ -149,7 +149,7 @@ const [language, setLanguage] = useState<Language>("zh") // 改为 "en" 使用�
 
 ## 贡献
 
-本项目会自动与 [v0.app](https://v0.app) 同步。要贡献代码：
+本项目会自动与 [v0.app](https://v0.app) 双向同步。要贡献代码：
 
 1. 在此处继续构建您的应用：**[https://v0.app/chat/projects/ZLCXfbp61qN](https://v0.app/chat/projects/ZLCXfbp61qN)**
 2. 更改会自动推送到本仓库
@@ -162,3 +162,5 @@ const [language, setLanguage] = useState<Language>("zh") // 改为 "en" 使用�
 ## 支持
 
 如有问题或需要支持，请联系 OSPO 团队或在本仓库中提交 issue。
+
+OSPO 中文社区交流：[https://OSPO.CC](https://ospo.cc)
