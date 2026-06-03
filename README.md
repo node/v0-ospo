@@ -1,166 +1,64 @@
-# OSPO Internal Website
+# OSPO Internal Portal
 
-[中文版](./README-zh-hans.md) | English
+[中文](./README-zh-hans.md) | English
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
-
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/pecommunity/v0-ospo-internal-website)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/ZLCXfbp61qN)
-
-## Overview
-
-This is an internal website for the Open Source Program Office (OSPO) - a dedicated team within an organization responsible for open source related initiatives and governance. The website serves as a central hub for open source management, compliance, and collaboration.
+A static internal portal for an Open Source Program Office — a single hub for
+open source strategy, projects, compliance, governance, resources, news, and
+foundation memberships.
 
 ## Features
 
-### 🏠 Home
-- OSPO vision and mission statement
-- Key responsibilities overview
-- Team composition and contact information
-- Important internal and external links
+- **Home** — multi-image hero carousel, latest open source news, vision /
+  mission / responsibilities, team, foundation & industry memberships
+  (Linux Foundation, CNCF, AAIF, TODO Group, OpenSSF, ASF), curated links
+- **Capabilities** — milestone timelines with auto-derived progress
+- **Projects** — internal projects, external contributions, public OSS
+- **Compliance** — license metrics, policies, knowledge base, SCA tooling,
+  supply chain health (overall score + 5 dimensions)
+- **Governance** — policies, org structure, operating procedures
+- **Resources** — processes, guides, success stories (with search)
+- **Open Source Community** — outbound link to the internal community
+- Full **English / 简体中文** UI, persisted via `localStorage`
+- Dark / light / system theme
 
-### 🎯 Capabilities Building
-- Technology capability development tracking
-- Community engagement initiatives
-- Training programs and workshops
-- Legal and compliance capabilities
-- Metrics and measurement frameworks
-- Progress tracking with milestone visualization
+## Stack
 
-### 📦 Projects
-- **Internal Open Source Projects**: Projects developed and used within the organization
-- **External Contributions**: Contributions to third-party open source projects
-- **Public Open Source Projects**: Projects open-sourced and maintained by the organization
-- Project metadata including stars, forks, and license information
+Next.js 15 (App Router, static export) · React 19 · TypeScript · Tailwind CSS
+· shadcn/ui (Radix) · embla-carousel · vitest
 
-### 🛡️ Compliance
-- License compliance requirements and review processes
-- Compliance metrics and statistics
-- Knowledge base with guides and FAQs
-- SCA (Software Composition Analysis) tools integration
-- **Open Source Supply Chain**: Health metrics across security, maintenance, community, license compliance, and code quality dimensions
-
-### ⚖️ Governance
-- Open source policies and standards
-- Organizational structure and governance committees
-- Operating procedures and approval workflows
-- Decision-making frameworks
-
-### 📚 Resources
-- **Process & Guidelines**: Standard processes, quick start guides, best practices, and templates
-- **Success Stories**: Real-world case studies showcasing open source adoption impact
-
-### 🌐 Internationalization
-- Full support for Chinese and English languages
-- Easy language switching via UI controls
-- Persistent language preference
-
-## Tech Stack
-
-- **Framework**: Next.js 15.5.9 (App Router)
-- **Styling**: Tailwind CSS
-- **UI Components**: shadcn/ui
-- **Icons**: Lucide React
-- **Language**: TypeScript
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18.0.0 or higher
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/ospocc/v0-ospo.git
-cd v0-ospo
-```
-
-2. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
-
-3. Run the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-### Build for Production
+## Quick start
 
 ```bash
-npm run build
-npm run start
-# or
-yarn build
-yarn start
+pnpm install
+pnpm dev          # http://localhost:3000
+pnpm typecheck    # tsc --noEmit
+pnpm test         # vitest run
+pnpm build        # static export to ./out
 ```
 
-## Project Structure
+Requires Node 20+ and pnpm 9+. Optional env: `NEXT_PUBLIC_INTERNAL_GIT_BASE`
+(see `.env.example`).
+
+## Layout
 
 ```
-v0-ospo/
-├── app/                      # Next.js App Router pages
-│   ├── page.tsx              # Home page
-│   ├── capabilities/         # Capabilities building page
-│   ├── projects/             # Projects list page
-│   ├── compliance/           # Compliance page
-│   ├── governance/           # Governance policies page
-│   └── resources/            # Resources center page
-├── components/               # Reusable components
-│   ├── header.tsx            # Navigation header
-│   ├── footer.tsx            # Site footer
-│   └── language-provider.tsx # i18n provider
-├── public/                   # Static assets
-└── ...
+app/                    # routes (one page.tsx + layout.tsx per route)
+components/             # feature components and shadcn/ui primitives
+lib/data/               # all hardcoded content (projects, foundations, news…)
+lib/i18n/locales/       # en.json / zh.json (parity-tested)
+public/foundations/     # vendored foundation logos
+tests/                  # vitest unit tests
 ```
 
-## Configuration
+## Contributing & security
 
-### Default Language
-
-To change the default language, edit `components/language-provider.tsx`:
-
-```typescript
-const [language, setLanguage] = useState<Language>("en") // Change to "zh" for Chinese
-```
-
-### Theme Colors
-
-Customize theme colors in `tailwind.config.ts` and `app/globals.css`.
-
-## Deployment
-
-Your project is live at:
-
-**[https://vercel.com/pecommunity/v0-ospo-internal-website](https://vercel.com/pecommunity/v0-ospo-internal-website)**
-
-### Deploy to Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ospocc/v0-ospo)
-
-## Contributing
-
-This project is automatically synced with [v0.app](https://v0.app). To contribute:
-
-1. Continue building your app on: **[https://v0.app/chat/projects/ZLCXfbp61qN](https://v0.app/chat/projects/ZLCXfbp61qN)**
-2. Changes are automatically pushed to this repository
-3. Vercel deploys the latest version automatically
+- Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a PR.
+- Report security issues per [SECURITY.md](./SECURITY.md) — do **not** open
+  a public issue for vulnerabilities.
+- Agents (AI coding assistants) should also read [AGENTS.md](./AGENTS.md).
 
 ## License
 
-This project is licensed under the MIT License.
+MIT — see [LICENSE](./LICENSE).
 
-## Support
-
-For questions or support, please contact the OSPO team or open an issue in this repository.
-
-Visit OSPO.CC community [https://OSPO.CC](https://ospo.cc)
+Community: [https://ospo.cc](https://ospo.cc)
