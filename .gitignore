@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js build output
+.next/
+out/
+next-env.d.ts
+
+# TypeScript incremental cache
+*.tsbuildinfo
+
+# Test / coverage
+coverage/
+.vitest-cache/
+
+# Env files (commit only .env.example)
+.env
+.env.local
+.env.*.local
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vercel
+.vercel/
