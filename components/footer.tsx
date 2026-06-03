@@ -3,6 +3,8 @@
 import { useLanguage } from "@/components/language-provider"
 import { Github } from "lucide-react"
 import Link from "next/link"
+import { siteConfig } from "@/lib/data/site"
+import { obfuscateEmail } from "@/lib/data/team"
 
 export default function Footer() {
   const { t } = useLanguage()
@@ -13,7 +15,7 @@ export default function Footer() {
         <p className="text-sm text-muted-foreground">{t("footer.copyright")}</p>
         <div className="flex items-center gap-6">
           <Link
-            href="https://github.com/ospocc/v0-ospo"
+            href={siteConfig.repoUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -21,7 +23,12 @@ export default function Footer() {
             <Github className="h-4 w-4" />
             <span>{t("footer.sourceCode")}</span>
           </Link>
-          <p className="text-sm text-muted-foreground">{t("footer.contact")}: ospo@example.com</p>
+          <a
+            href={`mailto:${siteConfig.contactEmail}`}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {t("footer.contact")}: {obfuscateEmail(siteConfig.contactEmail)}
+          </a>
         </div>
       </div>
     </footer>

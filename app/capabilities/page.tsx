@@ -4,16 +4,23 @@ import { useLanguage } from "@/components/language-provider"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Hash } from "lucide-react"
+import { MilestoneTimeline, progressFromMilestones, type Milestone } from "@/components/milestone-timeline"
+
+type Capability = {
+  id: string
+  titleKey: string
+  descKey: string
+  milestones: Milestone[]
+}
 
 export default function CapabilitiesPage() {
   const { t } = useLanguage()
 
-  const capabilities = [
+  const capabilities: Capability[] = [
     {
       id: "governance",
-      title: t("capabilities.governance.title"),
-      description: t("capabilities.governance.desc"),
-      progress: 85,
+      titleKey: "capabilities.governance.title",
+      descKey: "capabilities.governance.desc",
       milestones: [
         { title: t("capabilities.milestone.policyFramework"), status: "completed", date: "2024-01" },
         { title: t("capabilities.milestone.governanceCommittee"), status: "completed", date: "2024-02" },
@@ -23,9 +30,8 @@ export default function CapabilitiesPage() {
     },
     {
       id: "education",
-      title: t("capabilities.education.title"),
-      description: t("capabilities.education.desc"),
-      progress: 60,
+      titleKey: "capabilities.education.title",
+      descKey: "capabilities.education.desc",
       milestones: [
         { title: t("capabilities.milestone.basicTraining"), status: "completed", date: "2024-02" },
         { title: t("capabilities.milestone.advancedWorkshops"), status: "in-progress", date: "2024-04" },
@@ -35,9 +41,8 @@ export default function CapabilitiesPage() {
     },
     {
       id: "contribution",
-      title: t("capabilities.contribution.title"),
-      description: t("capabilities.contribution.desc"),
-      progress: 40,
+      titleKey: "capabilities.contribution.title",
+      descKey: "capabilities.contribution.desc",
       milestones: [
         { title: t("capabilities.milestone.contributionGuidelines"), status: "completed", date: "2024-03" },
         { title: t("capabilities.milestone.projectSelectionFramework"), status: "in-progress", date: "2024-06" },
@@ -47,9 +52,8 @@ export default function CapabilitiesPage() {
     },
     {
       id: "innersource",
-      title: t("capabilities.innersource.title"),
-      description: t("capabilities.innersource.desc"),
-      progress: 30,
+      titleKey: "capabilities.innersource.title",
+      descKey: "capabilities.innersource.desc",
       milestones: [
         { title: t("capabilities.milestone.innersourceGuidelines"), status: "completed", date: "2024-03" },
         { title: t("capabilities.milestone.pilotProjects"), status: "in-progress", date: "2024-05" },
@@ -59,9 +63,8 @@ export default function CapabilitiesPage() {
     },
     {
       id: "security",
-      title: t("capabilities.security.title"),
-      description: t("capabilities.security.desc"),
-      progress: 70,
+      titleKey: "capabilities.security.title",
+      descKey: "capabilities.security.desc",
       milestones: [
         { title: t("capabilities.milestone.securityScanning"), status: "completed", date: "2024-01" },
         { title: t("capabilities.milestone.licenseCompliance"), status: "completed", date: "2024-02" },
@@ -84,74 +87,47 @@ export default function CapabilitiesPage() {
             <Hash className="h-5 w-5 text-muted-foreground" />
             <span className="font-semibold">{t("capabilities.nav.title")}</span>
           </div>
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
+          <nav className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5" aria-label={t("capabilities.nav.title")}>
             {capabilities.map((capability) => (
               <a
                 key={capability.id}
                 href={`#${capability.id}`}
                 className="text-sm text-primary hover:underline p-2 rounded hover:bg-background transition-colors"
               >
-                {capability.title}
+                {t(capability.titleKey)}
               </a>
             ))}
-          </div>
+          </nav>
         </CardContent>
       </Card>
-      {/* End navigation */}
 
       <div className="grid gap-6">
-        {capabilities.map((capability) => (
-          <Card key={capability.id} id={capability.id}>
-            <CardHeader>
-              <div className="flex justify-between items-center">
-                <div>
-                  <CardTitle>{capability.title}</CardTitle>
-                  <CardDescription>{capability.description}</CardDescription>
-                </div>
-                <div className="text-right">
-                  <div className="text-sm font-medium">{t("capabilities.progress")}</div>
-                  <div className="text-2xl font-bold">{capability.progress}%</div>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Progress value={capability.progress} className="h-2" />
-
-              <div className="pt-4">
-                <h4 className="text-sm font-medium mb-3">{t("capabilities.milestones")}</h4>
-                <div className="relative">
-                  <div className="absolute left-0 top-0 h-full w-0.5 bg-muted"></div>
-                  <div className="space-y-6 relative">
-                    {capability.milestones.map((milestone, index) => (
-                      <div key={index} className="pl-6 relative">
-                        <div
-                          className={`absolute left-0 top-1.5 h-3 w-3 rounded-full border-2 ${
-                            milestone.status === "completed"
-                              ? "bg-green-500 border-green-500"
-                              : milestone.status === "in-progress"
-                                ? "bg-yellow-500 border-yellow-500"
-                                : "bg-background border-muted"
-                          }`}
-                        ></div>
-                        <div className="flex justify-between">
-                          <h5 className="font-medium">{milestone.title}</h5>
-                          <span className="text-sm text-muted-foreground">{milestone.date}</span>
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          {milestone.status === "completed"
-                            ? t("capabilities.status.completed")
-                            : milestone.status === "in-progress"
-                              ? t("capabilities.status.inProgress")
-                              : t("capabilities.status.planned")}
-                        </p>
-                      </div>
-                    ))}
+        {capabilities.map((capability) => {
+          const progress = progressFromMilestones(capability.milestones)
+          return (
+            <Card key={capability.id} id={capability.id} className="scroll-mt-20">
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <CardTitle>{t(capability.titleKey)}</CardTitle>
+                    <CardDescription>{t(capability.descKey)}</CardDescription>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-medium">{t("capabilities.progress")}</div>
+                    <div className="text-2xl font-bold" aria-label={`${progress}%`}>{progress}%</div>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Progress value={progress} className="h-2" />
+                <div className="pt-4">
+                  <h4 className="text-sm font-medium mb-3">{t("capabilities.milestones")}</h4>
+                  <MilestoneTimeline milestones={capability.milestones} />
+                </div>
+              </CardContent>
+            </Card>
+          )
+        })}
       </div>
     </div>
   )

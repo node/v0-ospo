@@ -10,9 +10,12 @@ import Footer from "@/components/footer"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "OSPO Portal",
+  title: {
+    default: "OSPO Portal",
+    template: "%s | OSPO Portal",
+  },
   description: "Internal portal for Open Source Program Office",
-    generator: 'v0.app'
+  generator: "v0.app",
 }
 
 export default function RootLayout({
